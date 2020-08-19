@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 import static com.memorize.model.GrantedAuthority.BOOK_READ;
 import static com.memorize.model.GrantedAuthority.BOOK_WRITE;
 
-public enum UserRole {
+public enum AuthUserRole {
     // Assign granted Authorities to roles.
     ADMIN(Sets.newHashSet(BOOK_READ, BOOK_WRITE), Constants.ROLE_ADMIN),
     USER(Sets.newHashSet(BOOK_READ), Constants.ROLE_USER);
 
-    UserRole(Set<GrantedAuthority> authorities, int value) {
+    AuthUserRole(Set<GrantedAuthority> authorities, int value) {
         this.authorities = authorities;
         this.value = value;
     }
@@ -44,7 +44,7 @@ public enum UserRole {
         return simpleAuthorities;
     }
 
-    public static Optional<UserRole> valueOf(int value) {
+    public static Optional<AuthUserRole> valueOf(int value) {
         return Arrays.stream(values())
                 .filter(role -> role.value == value)
                 .findFirst();

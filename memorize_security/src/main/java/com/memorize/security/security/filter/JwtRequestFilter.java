@@ -1,6 +1,6 @@
 package com.memorize.security.security.filter;
 
-import com.memorize.security.security.service.IUserService;
+import com.memorize.security.security.service.IAuthUserService;
 import com.memorize.security.security.util.JwtUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,11 +19,11 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-    private final IUserService iUserService;
+    private final IAuthUserService iAuthUserService;
 
-    public JwtRequestFilter(JwtUtil jwtUtil, IUserService iUserService) {
+    public JwtRequestFilter(JwtUtil jwtUtil, IAuthUserService iUserService) {
         this.jwtUtil = jwtUtil;
-        this.iUserService = iUserService;
+        this.iAuthUserService = iUserService;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = iUserService.loadUserByUsername(username);
+            UserDetails userDetails = iAuthUserService.loadUserByUsername(username);
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

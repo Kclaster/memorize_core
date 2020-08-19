@@ -1,9 +1,10 @@
-package com.memorize.security.security.controller;
+package com.memorize.api.controller;
 
+import com.memorize.api.service.IAthleteService;
 import com.memorize.model.AuthUserRequest;
 import com.memorize.model.AuthenticationRequest;
 import com.memorize.security.security.config.JwtConfig;
-import com.memorize.security.security.service.IUserService;
+import com.memorize.security.security.service.IAuthUserService;
 import com.memorize.security.security.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,18 +21,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
-    private final IUserService iUserService;
+    private final IAuthUserService iAuthUserService;
+    private final IAthleteService iAthleteService;
     private final JwtUtil jwtUtil;
     private final JwtConfig jwtConfig;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, IUserService iUserService, JwtUtil jwtUtil, JwtConfig jwtConfig) {
+    public AuthController(
+            AuthenticationManager authenticationManager,
+            IAuthUserService iAuthUserService,
+            IAthleteService iAthleteService,
+            JwtUtil jwtUtil,
+            JwtConfig jwtConfig
+    ) {
         this.authenticationManager = authenticationManager;
-        this.iUserService = iUserService;
+        this.iAuthUserService = iAuthUserService;
+        this.iAthleteService = iAthleteService;
         this.jwtUtil = jwtUtil;
         this.jwtConfig = jwtConfig;
     }
@@ -44,7 +55,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
         try {
-            iUserService.registerNewUserAccount(authUserRequest);
+            iAuthUserService.registerNewUserAccount(authUserRequest);
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -54,7 +65,7 @@ public class AuthController {
 
     @RequestMapping(value = "/authenticate")
     @PostMapping
-    public ResponseEntity<Void> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         // Prove I am who I say I am
         try {
             authenticationManager.authenticate(
@@ -64,16 +75,26 @@ public class AuthController {
             throw new Exception("Incorrect username or password", e);
         }
 
-        final UserDetails userDetails = iUserService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        try {
+            var athleteDto = iAthleteService.getAthleteByUsername(authenticationRequest.getUsername());
+            var claims = new HashMap<String, Object>();
+            claims.put("athleteId", athleteDto);
 
-        // Add new instance of jwt token to custom header
-        final String jwt = jwtUtil.generateToken(userDetails);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + jwt);
+            final UserDetails userDetails = iAuthUserService
+                    .loadUserByUsername(authenticationRequest.getUsername());
+
+            // Add new instance of jwt token to custom header
+            final String jwt = jwtUtil.generateToken(userDetails, claims);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + jwt);
 
 
-        return new ResponseEntity<>(responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.OK);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body(e);
+        }
 
     }
 }

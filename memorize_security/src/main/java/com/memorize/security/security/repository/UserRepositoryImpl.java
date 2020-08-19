@@ -1,7 +1,7 @@
 package com.memorize.security.security.repository;
 
 import com.memorize.model.AuthUserRequest;
-import com.memorize.model.User;
+import com.memorize.model.AuthUser;
 import com.memorize.model.helpers.SqlHelper;
 import com.memorize.security.security.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +29,17 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Optional<User> selectUserByUsername(String username) {
+    public Optional<AuthUser> selectUserByUsername(String username) {
         String sql = SqlHelper.sql("select-auth-user");
         try {
-            List<User> authUserEntities = jdbcTemplate.query(
+            List<AuthUser> authAuthUserEntities = jdbcTemplate.query(
                     sql,
                     new UserMapper(),
                     username
             );
 
-            if (authUserEntities.size() == 1) {
-                return Optional.of(authUserEntities.get(0));
+            if (authAuthUserEntities.size() == 1) {
+                return Optional.of(authAuthUserEntities.get(0));
             }
             return Optional.empty();
         } catch (Exception e) {

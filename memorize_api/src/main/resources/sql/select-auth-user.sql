@@ -6,5 +6,5 @@ SELECT id
     , is_locked as isLocked
     , is_credentials_expired as isCredentialsExpired
     , is_enabled as isEnabled
- FROM auth_users
+ FROM auth_user
 WHERE username = ?

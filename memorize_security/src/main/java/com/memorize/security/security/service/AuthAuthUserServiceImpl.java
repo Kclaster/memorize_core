@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class AuthAuthUserServiceImpl implements IAuthUserService {
     private final IUserRepository iUserRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(
+    public AuthAuthUserServiceImpl(
             IUserRepository iUserRepository,
             PasswordEncoder passwordEncoder
     ) {
