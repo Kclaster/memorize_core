@@ -1,22 +1,22 @@
 package com.memorize.api.repository;
 
-import com.memorize.model.athlete.AthleteDto;
-import com.memorize.model.athlete.AthleteDtoMapper;
 import com.memorize.model.helpers.SqlHelper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.memorize.model.number.NumberPerformanceDto;
+import com.memorize.model.number.NumberPerformanceDtoMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
-public class AthleteRepositoryImpl implements IAthleteRepository {
+public class NumberPerformanceRepositoryImpl implements INumberPerformanceRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    public AthleteRepositoryImpl(
+    public NumberPerformanceRepositoryImpl(
             JdbcTemplate jdbcTemplate,
             NamedParameterJdbcTemplate namedParameterJdbcTemplate
     ) {
@@ -25,22 +25,17 @@ public class AthleteRepositoryImpl implements IAthleteRepository {
     }
 
     @Override
-    public AthleteDto getAthleteByUsername(String username) throws Exception {
+    public List<NumberPerformanceDto> getNumberPerformance(UUID numberId) {
         Map<String, Object> params = Map.of(
-                "username", username
+                "numberId", numberId
         );
 
-        String sql = SqlHelper.sql("select-athlete-from-auth-username");
-        var athleteDtoList = namedParameterJdbcTemplate.query(
+        String sql = SqlHelper.sql("select-number-performance-data");
+        return namedParameterJdbcTemplate.query(
                 sql,
                 params,
-                new AthleteDtoMapper()
+                new NumberPerformanceDtoMapper()
         );
-
-        if (athleteDtoList.size() != 1) {
-            throw new Exception("Cannot find user associated with " + username);
-        }
-
-        return athleteDtoList.get(0);
     }
+
 }

@@ -1,22 +1,21 @@
 package com.memorize.api.repository;
 
-import com.memorize.model.athlete.AthleteDto;
-import com.memorize.model.athlete.AthleteDtoMapper;
 import com.memorize.model.helpers.SqlHelper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.memorize.model.number.NumberDto;
+import com.memorize.model.number.NumberDtoMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
-public class AthleteRepositoryImpl implements IAthleteRepository {
+public class NumberRepositoryImpl implements INumberRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    public AthleteRepositoryImpl(
+    public NumberRepositoryImpl(
             JdbcTemplate jdbcTemplate,
             NamedParameterJdbcTemplate namedParameterJdbcTemplate
     ) {
@@ -25,22 +24,24 @@ public class AthleteRepositoryImpl implements IAthleteRepository {
     }
 
     @Override
-    public AthleteDto getAthleteByUsername(String username) throws Exception {
+    public NumberDto getNumberData(UUID athleteId) throws Exception {
         Map<String, Object> params = Map.of(
-                "username", username
+                "athleteId", athleteId
         );
 
-        String sql = SqlHelper.sql("select-athlete-from-auth-username");
-        var athleteDtoList = namedParameterJdbcTemplate.query(
+        String sql = SqlHelper.sql("select-number-data");
+        var numberDtoList = namedParameterJdbcTemplate.query(
                 sql,
                 params,
-                new AthleteDtoMapper()
+                new NumberDtoMapper()
         );
 
-        if (athleteDtoList.size() != 1) {
-            throw new Exception("Cannot find user associated with " + username);
+
+        if (numberDtoList.size() != 1) {
+            throw new Exception("Cannot find number data associated with " + athleteId);
         }
 
-        return athleteDtoList.get(0);
+        return numberDtoList.get(0);
+
     }
 }

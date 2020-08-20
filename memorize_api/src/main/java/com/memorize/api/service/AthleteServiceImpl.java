@@ -1,7 +1,7 @@
 package com.memorize.api.service;
 
 import com.memorize.api.repository.IAthleteRepository;
-import com.memorize.model.Athlete.AthleteDto;
+import com.memorize.model.athlete.AthleteDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

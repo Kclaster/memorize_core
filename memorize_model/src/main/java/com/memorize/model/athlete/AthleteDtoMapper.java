@@ -1,4 +1,4 @@
-package com.memorize.model.Athlete;
+package com.memorize.model.athlete;
 
 
 import org.springframework.jdbc.core.RowMapper;

@@ -3,6 +3,7 @@ package com.memorize.api.controller;
 import com.memorize.api.service.IAthleteService;
 import com.memorize.model.AuthUserRequest;
 import com.memorize.model.AuthenticationRequest;
+import com.memorize.model.athlete.AthleteDto;
 import com.memorize.security.security.config.JwtConfig;
 import com.memorize.security.security.service.IAuthUserService;
 import com.memorize.security.security.util.JwtUtil;
@@ -89,7 +90,7 @@ public class AuthController {
             responseHeaders.set(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + jwt);
 
 
-            return new ResponseEntity<>(responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<AthleteDto>(athleteDto, responseHeaders, HttpStatus.OK);
 
         } catch (Exception e) {
 
