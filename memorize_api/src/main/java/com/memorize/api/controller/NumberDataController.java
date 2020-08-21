@@ -1,13 +1,12 @@
 package com.memorize.api.controller;
 
 import com.memorize.api.service.INumberService;
+import com.memorize.model.number.NumberPerformancePostRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -27,5 +26,16 @@ public class NumberDataController {
         } catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PostMapping
+    @RequestMapping("{numberId}/numberPerformances")
+    public ResponseEntity PostAttempt(@PathVariable(value = "athleteId") String userId,
+                                      @PathVariable(value = "numberId") String numberId,
+                                      @RequestBody final NumberPerformancePostRequest numberPerformanceEntity) {
+        URI location = URI.create(String.format("api/v1/users/%s/numbers", userId));
+        iNumberService.createNumberPerformance(UUID.fromString(numberId), numberPerformanceEntity);
+
+        return ResponseEntity.created(location).build();
     }
 }
