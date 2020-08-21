@@ -30,11 +30,11 @@ public class NumberDataController {
 
     @PostMapping
     @RequestMapping("{numberId}/numberPerformances")
-    public ResponseEntity PostAttempt(@PathVariable(value = "athleteId") String userId,
+    public ResponseEntity PostAttempt(@PathVariable(value = "athleteId") String athleteId,
                                       @PathVariable(value = "numberId") String numberId,
-                                      @RequestBody final NumberPerformancePostRequest numberPerformanceEntity) {
-        URI location = URI.create(String.format("api/v1/users/%s/numbers", userId));
-        iNumberService.createNumberPerformance(UUID.fromString(numberId), numberPerformanceEntity);
+                                      @RequestBody final NumberPerformancePostRequest numberPerformanceEntity) throws Exception {
+        URI location = URI.create(String.format("api/v1/users/%s/numbers", athleteId));
+        iNumberService.createNumberPerformance(UUID.fromString(athleteId), UUID.fromString(numberId), numberPerformanceEntity);
 
         return ResponseEntity.created(location).build();
     }

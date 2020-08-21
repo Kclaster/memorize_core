@@ -34,10 +34,14 @@ public class NumberServiceImpl implements INumberService {
     }
 
     @Override
-    public void createNumberPerformance(UUID numberId, NumberPerformancePostRequest numberPerformancePostRequest) {
+    public void createNumberPerformance(UUID athleteId, UUID numberId, NumberPerformancePostRequest numberPerformancePostRequest) throws Exception {
         var now = new Timestamp(System.currentTimeMillis());
         iNumberPerformanceRepository.createNumberPerformance(numberId, now, numberPerformancePostRequest);
 
-        // If post request is better than current numbers data, replace numbers data.
+        // If new score beats best score, update the best score data.
+        var numberDto = iNumberRepository.getNumberData(athleteId);
+        if (numberPerformancePostRequest.getAttemptScore() > numberDto.getBestScore()) {
+            iNumberRepository.updateNumberData(numberId, now, numberPerformancePostRequest);
+        }
     }
 }

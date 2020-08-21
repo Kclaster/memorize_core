@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface INumberService {
     NumberDto getNumberData(UUID athleteId) throws Exception;
-    void createNumberPerformance(UUID numberId, NumberPerformancePostRequest numberPerformancePostRequest);
+    void createNumberPerformance(UUID athleteId, UUID numberId, NumberPerformancePostRequest numberPerformancePostRequest) throws Exception;
 }
