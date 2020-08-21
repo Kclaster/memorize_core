@@ -1,7 +1,7 @@
 package com.memorize.security.security.mapper;
 
-import com.memorize.model.AuthUser;
-import com.memorize.model.AuthUserRole;
+import com.memorize.model.auth.AuthUser;
+import com.memorize.model.auth.AuthUserRole;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

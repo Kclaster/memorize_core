@@ -1,6 +1,6 @@
 package com.memorize.security.security.service;
 
-import com.memorize.model.AuthUserRequest;
+import com.memorize.model.auth.AuthUserRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

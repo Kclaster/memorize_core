@@ -1,4 +1,4 @@
-package com.memorize.model;
+package com.memorize.model.auth;
 
 public enum GrantedAuthority {
     BOOK_READ("book:read"),

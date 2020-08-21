@@ -1,7 +1,7 @@
 package com.memorize.security.security.repository;
 
-import com.memorize.model.AuthUserRequest;
-import com.memorize.model.AuthUser;
+import com.memorize.model.auth.AuthUserRequest;
+import com.memorize.model.auth.AuthUser;
 
 import java.util.Optional;
 

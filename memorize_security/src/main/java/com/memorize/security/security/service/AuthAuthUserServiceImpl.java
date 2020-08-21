@@ -1,6 +1,6 @@
 package com.memorize.security.security.service;
 
-import com.memorize.model.AuthUserRequest;
+import com.memorize.model.auth.AuthUserRequest;
 import com.memorize.security.security.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.memorize.model;
+package com.memorize.model.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

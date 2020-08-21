@@ -1,4 +1,4 @@
-package com.memorize.model;
+package com.memorize.model.auth;
 
 public class AuthenticationResponse {
     private final String jwt;

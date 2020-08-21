@@ -1,4 +1,4 @@
-package com.memorize.model;
+package com.memorize.model.auth;
 
 import com.google.common.collect.Sets;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.memorize.model.GrantedAuthority.BOOK_READ;
-import static com.memorize.model.GrantedAuthority.BOOK_WRITE;
+import static com.memorize.model.auth.GrantedAuthority.BOOK_READ;
+import static com.memorize.model.auth.GrantedAuthority.BOOK_WRITE;
 
 public enum AuthUserRole {
     // Assign granted Authorities to roles.

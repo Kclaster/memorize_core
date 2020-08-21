@@ -1,6 +1,6 @@
 package com.memorize.model.annotations;
 
-import com.memorize.model.AuthUserRequest;
+import com.memorize.model.auth.AuthUserRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

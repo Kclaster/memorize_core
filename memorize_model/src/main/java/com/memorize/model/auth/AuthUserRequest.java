@@ -1,4 +1,4 @@
-package com.memorize.model;
+package com.memorize.model.auth;
 
 import com.memorize.model.annotations.PasswordMatches;
 import com.memorize.model.annotations.ValidEmail;

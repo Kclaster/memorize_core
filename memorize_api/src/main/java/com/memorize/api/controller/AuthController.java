@@ -1,8 +1,8 @@
 package com.memorize.api.controller;
 
 import com.memorize.api.service.IAthleteService;
-import com.memorize.model.AuthUserRequest;
-import com.memorize.model.AuthenticationRequest;
+import com.memorize.model.auth.AuthUserRequest;
+import com.memorize.model.auth.AuthenticationRequest;
 import com.memorize.model.athlete.AthleteDto;
 import com.memorize.security.security.config.JwtConfig;
 import com.memorize.security.security.service.IAuthUserService;
