@@ -57,15 +57,15 @@ public class NumberDataTest {
         var url = String.format("/api/v1/athletes/%s/numbers", athleteId);
 
         when(iNumberService.getNumberData(UUID.randomUUID()))
-                .thenReturn(dummyNumberDto());
+                .thenReturn(dummyNumberDto(athleteId));
 
         mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    private NumberDto dummyNumberDto() {
+    private NumberDto dummyNumberDto(UUID athleteId) {
         var dummyNumberDto = new NumberDto();
-        dummyNumberDto.setId(UUID.randomUUID());
+        dummyNumberDto.setId(athleteId);
         dummyNumberDto.setBestScore(100);
 
         return dummyNumberDto;
