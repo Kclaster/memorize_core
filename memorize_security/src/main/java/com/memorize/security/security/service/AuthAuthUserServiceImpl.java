@@ -1,9 +1,9 @@
 package com.memorize.security.security.service;
 
+import com.memorize.model.auth.AuthUser;
 import com.memorize.model.auth.AuthUserRequest;
 import com.memorize.security.security.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class AuthAuthUserServiceImpl implements IAuthUserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public AuthUser loadUserByUsername(String username) {
         return iUserRepository
                 .selectUserByUsername(username)
                 .orElseThrow(() ->

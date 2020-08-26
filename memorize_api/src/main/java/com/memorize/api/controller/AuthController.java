@@ -1,9 +1,10 @@
 package com.memorize.api.controller;
 
 import com.memorize.api.service.IAthleteService;
+import com.memorize.model.athlete.AthleteDto;
+import com.memorize.model.auth.AuthUser;
 import com.memorize.model.auth.AuthUserRequest;
 import com.memorize.model.auth.AuthenticationRequest;
-import com.memorize.model.athlete.AthleteDto;
 import com.memorize.security.security.config.JwtConfig;
 import com.memorize.security.security.service.IAuthUserService;
 import com.memorize.security.security.util.JwtUtil;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -78,14 +78,16 @@ public class AuthController {
 
         try {
             var athleteDto = iAthleteService.getAthleteByUsername(authenticationRequest.getUsername());
-            var claims = new HashMap<String, Object>();
-            claims.put("athleteId", athleteDto);
 
-            final UserDetails userDetails = iAuthUserService
+            final AuthUser authUser = iAuthUserService
                     .loadUserByUsername(authenticationRequest.getUsername());
 
+            var claims = new HashMap<String, Object>();
+            claims.put("operatorId", athleteDto.getId());
+            claims.put("roleId", authUser.getRoleId());
+
             // Add new instance of jwt token to custom header
-            final String jwt = jwtUtil.generateToken(userDetails, claims);
+            final String jwt = jwtUtil.generateToken(authUser, claims);
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + jwt);
 
